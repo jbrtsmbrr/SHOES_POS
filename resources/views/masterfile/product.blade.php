@@ -7,10 +7,10 @@
   <div class="div_head">
     <div class="row">
       <div class="col-md-3">
-        <input type="hidden" class="moduletxt form-control form-control-sm txtprod_id" name="prod_id" autocomplete="off">
+        <input type="hidden" class="moduletxt form-control form-control-sm txtprod_id" name="prod_id">
         <small class="small-label txtlabel">Barcode</small>
         <div class="input-group mb-2">
-          <input type="text" class="moduletxt form-control form-control-sm txtprod_barcode" name="prod_barcode" autocomplete="off">
+          <input type="text" class="moduletxt form-control form-control-sm txtprod_barcode" name="prod_barcode">
           <div class="input-group-prepend">
             <button lookuptype='lookupproduct' type="button" class="lookup btn btn-primary btn-sm" data-toggle="modal" data-target="#lookup-list">
               <i class="fa fa-eye"></i>
@@ -18,15 +18,15 @@
           </div>
         </div> {{-- end lookup product --}}
         <small class="small-label txtlabel">Product Name</small>
-        <input type="text" class="moduletxt form-control form-control-sm txtprod_name" name="prod_name" autocomplete="off">
+        <input type="text" class="moduletxt form-control form-control-sm txtprod_name" name="prod_name">
         <small class="small-label txtlabel">Description</small>
-        <input type="text" class="moduletxt form-control form-control-sm txtprod_desc" name="prod_desc" autocomplete="off">
+        <input type="text" class="moduletxt form-control form-control-sm txtprod_desc" name="prod_desc">
         <small class="small-label txtlabel">Discount</small>
-        <input type="text" class="moduletxt form-control form-control-sm txtdiscount" name="discount" autocomplete="off">
+        <input type="text" class="moduletxt form-control form-control-sm txtdiscount" name="discount">
         <small class="small-label txtlabel">Brand</small>
         <div class="input-group mb-2">
-          <input readonly type="text" class="moduletxt form-control form-control-sm txtbrand_name" name="brand_name" autocomplete="off">
-          <input type="hidden" class="moduletxt form-control form-control-sm txtbrand_id" name="brand_id" autocomplete="off">
+          <input readonly type="text" class="moduletxt form-control form-control-sm txtbrand_name" name="brand_name">
+          <input type="hidden" class="moduletxt form-control form-control-sm txtbrand_id" name="brand_id">
           <div class="input-group-prepend">
             <button lookuptype='lookupbrand' type="button" class="lookup btn btn-primary btn-sm" data-toggle="modal" data-target="#lookup-list">
               <i class="fa fa-eye"></i>
@@ -40,7 +40,7 @@
   <div class="div_stock">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
-        <a class="nav-link tab-header active" id="uom-tab" data-toggle="tab" href="#uom" role="tab" aria-controls="uom" aria-selected="true">UOM</a>
+        <a class="nav-link tab-header" id="uom-tab" data-toggle="tab" href="#uom" role="tab" aria-controls="uom" aria-selected="true">UOM</a>
       </li>
       <li class="nav-item">
         <a class="nav-link tab-header" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
@@ -50,7 +50,7 @@
       </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="uom" role="tabpanel" aria-labelledby="uom-tab">
+      <div class="tab-pane fade" id="uom" role="tabpanel" aria-labelledby="uom-tab">
         <div class="responsive tbl_uom" style="height: 55vh; overflow-y: auto; margin-bottom: 0px; width: 50%;">
           <table class="table table-sm table-striped">
             <thead id="tbl_head_uom">
@@ -81,6 +81,10 @@
 @include('lookup/lookup')
 
 <script>
+  $(".moduletxt").attr({
+      "autocomplete" : "off"
+  });
+
   var moduleid = 'product';
   
   // Example POST method implementation:
@@ -104,7 +108,6 @@
 
     return response.json(); // parses JSON response into native JavaScript objects
   }
-
   // this is sample if you use postData
   // postData(`${moduleid}/reqProduct`, {prod_id:prod_id})
   // .then(res => {
@@ -179,6 +182,7 @@
                 }
               });
             }
+            $(".div_stock #uom-tab").click();
           }
         }); // postData
       break; // lookupproduct
@@ -221,26 +225,6 @@
     }); // postData
   });
 
-  $(document).on("click", ".btnaddrow", function(e) {
-    e.preventDefault();
-
-    $("#tbl_body_uom").append(`
-      <tr>
-        <td>
-          <i class="fas fa-download btnblue colaction btnuomsave" id="btnuomsave-1" line="1"></i>
-          <i class="fas fa-trash btnred colaction btnuomdelete"></i>
-        </td>
-        <td>
-          <input id="txtuom_desc-1" type="text" class="form-control form-control-sm txtdescription txtuom_desc" name="uom_desc" value="">
-          <input id="txtuom_id-1" type="hidden" class="form-control form-control-sm txtuom_id" name="uom_id" value="">
-        </td>
-        <td><input id="txtfactor-1" type="text" class="form-control form-control-sm txtqty text-right txtfactor" name="factor" value=""></td>
-        <td><input id="txtamt-1" type="text" class="form-control form-control-sm txtcurrency text-right txtamt" name="amt" value=""></td>
-      </tr>
-    `);
-
-  });
-
   $(document).on("click", "#tbl_body_uom .btnuomdelete", function(e) {
     e.preventDefault();
     let parent = $(this).closest("tr");
@@ -251,6 +235,26 @@
     } else {
       parent.remove();
     }
+  });
+  
+  $(document).on("click", ".btnaddrow", function(e) {
+    e.preventDefault();
+
+    $("#tbl_body_uom").append(`
+      <tr>
+        <td>
+          <i class="fas fa-download btnblue colaction btnuomsave" id="btnuomsave-1" line="1"></i>
+          <i class="fas fa-trash btnred colaction btnuomdelete"></i>
+        </td>
+        <td>
+          <input autocomplete="off" id="txtuom_desc-1" type="text" class="txtgrid form-control form-control-sm txtdescription txtuom_desc" name="uom_desc" value="">
+          <input autocomplete="off" id="txtuom_id-1" type="hidden" class="txtgrid form-control form-control-sm txtuom_id" name="uom_id" value="">
+        </td>
+        <td><input autocomplete="off" id="txtfactor-1" type="text" class="txtgrid form-control form-control-sm txtqty text-right txtfactor" name="factor" value=""></td>
+        <td><input autocomplete="off" id="txtamt-1" type="text" class="txtgrid form-control form-control-sm txtcurrency text-right txtamt" name="amt" value=""></td>
+      </tr>
+    `);
+
   });
 
   $(document).on("click", ".div_stock #uom-tab", function(e) {
@@ -276,11 +280,11 @@
                 <i class="fas fa-trash btnred colaction btnuomdelete" id="btnuomdelete-${uom_id}" ukey="${uom_id}"></i>
               </td>
               <td>
-                <input id="txtuom_desc-${uom_id}" type="text" class="form-control form-control-sm txtdescription txtuom_desc" name="uom_desc" value="${uom_desc}">
-                <input id="txtuom_id-${uom_id}" type="hidden" class="form-control form-control-sm txtuom_id" name="uom_id" value="${uom_id}">
+                <input autocomplete="off" id="txtuom_desc-${uom_id}" type="text" class="txtgrid form-control form-control-sm txtdescription txtuom_desc" name="uom_desc" value="${uom_desc}">
+                <input autocomplete="off" id="txtuom_id-${uom_id}" type="hidden" class="txtgrid form-control form-control-sm txtuom_id" name="uom_id" value="${uom_id}">
               </td>
-              <td><input id="txtfactor-${uom_id}" type="text" class="form-control form-control-sm txtqty text-right txtfactor" name="factor" value="${factor}"></td>
-              <td><input id="txtamt-${uom_id}" type="text" class="form-control form-control-sm txtcurrency text-right txtamt" name="amt" value="${amt}"></td>
+              <td><input autocomplete="off" id="txtfactor-${uom_id}" type="text" class="txtgrid form-control form-control-sm txtqty text-right txtfactor" name="factor" value="${factor}"></td>
+              <td><input autocomplete="off" id="txtamt-${uom_id}" type="text" class="txtgrid form-control form-control-sm txtcurrency text-right txtamt" name="amt" value="${amt}"></td>
             </tr>
           `;
         }
