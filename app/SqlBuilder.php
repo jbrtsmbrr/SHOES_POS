@@ -20,7 +20,7 @@ class SqlBuilder
 				return DB::connection($connection)->select($qry,$params);
 			}//end if
 		} catch (PDOException $e) {
-			// $this->create_Elog($e);        
+			$this->create_Elog($e);        
 			echo $e;
 		}
 	}//end fn
@@ -54,7 +54,7 @@ class SqlBuilder
       DB::table($table)->where($condition)->update($columns);
       return 1;
    	} catch (PDOException $e) {
-     	// $this->create_Elog($e);        
+     	$this->create_Elog($e);        
      	echo $e;
      	return 0;
    	} 
@@ -65,7 +65,7 @@ class SqlBuilder
       DB::table($table)->insert($columns);
       return 1;
     } catch(PDOException $e) {
-       	// $this->create_Elog($table.' - '.$e);    
+       	$this->create_Elog($table.' - '.$e);    
         echo $e;
         return 0;
     }//end catch

@@ -25,6 +25,9 @@ class lookupController extends Controller
       case 'lookupuom':
         $data = $this->lookupUom($params);
       break;
+      case 'lookupsupplier':
+        $data = $this->lookupSupplier($params);
+      break;
     }
 
     return $data;
@@ -115,6 +118,42 @@ class lookupController extends Controller
           </i>",
         'uom_name'  => $uom_name,
         'amt'     => $amt,
+      ]);
+    }
+
+    return ['lookuptype'=>$lookuptype, 'modal_setup'=>$modal_setup, 'status'=>true];
+  }
+
+  private function lookupSupplier($params) {
+    $lookuptype = $params['lookuptype'];
+    $modal_setup = [];
+
+    $modal_setup['title'] = 'Lookup Supplier';
+    $modal_setup['header'] = ['Action', 'Code', 'Name'];
+    $modal_setup['body'] = [];
+
+    $qry = "
+      select
+        supp.client_id, supp.client_code, supp.client_name, supp.address, supp.contact_num
+        from tbl_client as supp
+    ";
+    $result = $this->sqlBuilder->opentable($qry);
+
+    foreach ($result as $key => $value) {
+      $client_id = $value->client_id;
+      $client_code = $value->client_code;
+      $client_name = $value->client_name;
+      
+      array_push($modal_setup['body'], [
+        'client_id'    => "
+          <i class = 'fas fa-download $lookuptype btnlookup callbtnlookup' 
+            lookuptype     = $lookuptype
+            txtclient_id   = '$client_id' 
+            txtclient_code = '$client_code' 
+            txtclient_name = '$client_name'>
+          </i>",
+        'client_code'  => $client_code,
+        'client_name'  => $client_name,
       ]);
     }
 

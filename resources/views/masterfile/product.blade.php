@@ -240,6 +240,13 @@
   $(document).on("click", ".btnaddrow", function(e) {
     e.preventDefault();
 
+    let prod_id = $(".txtprod_id").val();
+
+    if(prod_id == "" || prod_id == 0) {
+      toastr.error("Please Save Product First!", 'Error');
+      return false;
+    }
+
     $("#tbl_body_uom").append(`
       <tr>
         <td>
@@ -262,6 +269,11 @@
     
     let prod_id = $(".txtprod_id").val();
     
+    if(prod_id == "" || prod_id == 0) {
+      toastr.error("Please Save Product First!", 'Error');
+      return false;
+    }
+
     postData(`${moduleid}/reqUom`, {prod_id:prod_id})
     .then(res => {
       let str = "";

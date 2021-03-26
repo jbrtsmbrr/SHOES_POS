@@ -49,7 +49,7 @@ class productController extends Controller
     $response = [];
 
     if ($this->data['prod_id'] != "") {
-      $sql = $this->sqlBuilder->update("tbl_product", $this->data, ['prod_id'=>$this->data['prod_id']]);
+      $sql = $this->sqlBuilder->update($this->table, $this->data, ['prod_id'=>$this->data['prod_id']]);
 
       if ($sql) {
         $response = ["status"=>true, "msg"=>"Update Success!", 'data'=>[]];
@@ -57,7 +57,7 @@ class productController extends Controller
         $response = ["status"=>false, "msg"=>"Update Failed!"];
       }
     } else {
-      $prod_id = $this->sqlBuilder->insertGetId("tbl_product", $this->data);
+      $prod_id = $this->sqlBuilder->insertGetId($this->table, $this->data);
 
       $prod_data = $this->getProduct($prod_id);
 
@@ -77,9 +77,9 @@ class productController extends Controller
     $prod_data = $this->getProduct($prod_id);
 
     if(!empty($prod_data)) {
-      $response = ["status"=>true, "msg"=>"Insert Success!", 'data'=>$prod_data];
+      $response = ["status"=>true, "msg"=>"Fetch Success!", 'data'=>$prod_data];
     } else {
-      $response = ["status"=>false, "msg"=>"Insert Failed!",];
+      $response = ["status"=>false, "msg"=>"No Data!",];
     }
     
     echo json_encode($response); 
@@ -115,7 +115,7 @@ class productController extends Controller
     if(!empty($uom_data)) {
       $response = ["status"=>true, "msg"=>"Fetch Success!", 'data'=>$uom_data];
     } else {
-      $response = ["status"=>false, "msg"=>"Fetch Failed!"];
+      $response = ["status"=>false, "msg"=>"No Data!"];
     }
 
     echo json_encode($response);

@@ -25,6 +25,8 @@ Route::group(["prefix" => "/inventory_system"], function() {
   Route::get("/dashboard", function() {
     return view('/masterfile/test');
   });
+
+  Route::get("/tableUpdate", "tableUpdateController@tableUpdate");
 });
 
 Route::group(["prefix" => "/inventory_system/product"], function() {
@@ -36,4 +38,11 @@ Route::group(["prefix" => "/inventory_system/product"], function() {
   Route::post("/saveUom", "productController@saveUom");
 
   Route::get("/dummyData", "productController@dummyData");
+});
+
+Route::group(["prefix" => "/inventory_system/supplier"], function() {
+  Route::get("/", "supplierController@index");
+  Route::post("/insert", "supplierController@insert");
+  Route::get("/lookup/{lookuptype}", "supplierController@lookup");
+  Route::post("/reqSupplier", "supplierController@reqSupplier");
 });

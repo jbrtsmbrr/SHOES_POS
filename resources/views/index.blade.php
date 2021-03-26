@@ -24,7 +24,7 @@
   </head>
   <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">COMPANY</a>
+      <a class="navbar-brand text-center" href="#">GLENMORE'S SHOP</a>
       <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
       <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"></div>
       <!-- Navbar-->
@@ -58,6 +58,7 @@
                 <nav class="sb-sidenav-menu-nested nav">
                   <a class="nav-link navlink childnav" url="{{$url}}/dashboard" href="javascript:void(0);">Dashboard</a>
                   <a class="nav-link navlink childnav" url="{{$url}}/product" href="javascript:void(0);">Product</a>
+                  <a class="nav-link navlink childnav" url="{{$url}}/supplier" href="javascript:void(0);">Supplier</a>
                   <a class="nav-link navlink childnav" url="{{$url}}/warehouse" href="javascript:void(0);">Warehouse</a>
                 </nav>
               </div>
@@ -148,6 +149,7 @@
       e.preventDefault();
       let url = $(this).attr('url');
       let childnav = $(this).text();
+
       localStorage.setItem("url", url);
 
       document.title = childnav.charAt(0).toUpperCase() + childnav.slice(1);
